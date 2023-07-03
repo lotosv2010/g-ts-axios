@@ -1,0 +1,30 @@
+{
+  "name": "g-ts-axios",
+  "version": "0.0.1",
+  "description": "TypeScript 从零实现 Axios",
+  "main": "dist/axios.umd.js",
+  "module": "dist/axios.es5.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Robin <lotosv2010@163.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lotosv2010/g-ts-axios"
+  },
+  "keywords": [
+    "typescript",
+    "axios"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
