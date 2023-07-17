@@ -99,3 +99,27 @@ axios({
   url: '/base/buffer',
   data: arr
 })
+
+
+axios({
+  method: 'post',
+  url: '/base/post',
+  data: {
+    e: 'e',
+    f: 0
+  }
+}).then(res => {
+  console.log(res)
+})
+
+axios({
+  method: 'post',
+  url: '/base/post',
+  responseType: 'json',
+  data: {
+    h: 'h',
+    g: 9
+  }
+}).then(res => {
+  console.log(res)
+})
