@@ -1,6 +1,6 @@
 import { AxiosRequestConfig, Axios } from './types'
 import xhr from './xhr'
-import { buildURL, transformRequest } from './tools'
+import { buildURL, processHeaders, transformRequest } from './tools'
 
 const transformUrl = (config: AxiosRequestConfig): string => {
   const { url, params } = config
@@ -11,8 +11,14 @@ const transformRequestData = (config: AxiosRequestConfig): any => {
   return transformRequest(config.data)
 }
 
+const transformHeaders = (config: AxiosRequestConfig) => {
+  const { headers = {}, data } = config
+  return processHeaders(headers, data)
+}
+
 const processConfig = (config: AxiosRequestConfig): void => {
   config.url = transformUrl(config)
+  config.headers = transformHeaders(config) // 必须先处理 headers 在处理 data
   config.data = transformRequestData(config)
 }
 
