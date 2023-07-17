@@ -1,4 +1,4 @@
-import { isArray, isDate, isObject, encode } from './util'
+import { isArray, isDate, isPlainObject, encode } from './util'
 
 export const buildURL = (url: string, params?: any) => {
   if (!params) {
@@ -26,7 +26,7 @@ export const buildURL = (url: string, params?: any) => {
       let tempVal = v
       if (isDate(v)) {
         tempVal = v.toISOString()
-      } else if (isObject(v)) {
+      } else if (isPlainObject(v)) {
         tempVal = JSON.stringify(v)
       }
       parts.push(`${encode(key)}=${encode(tempVal)}`)
