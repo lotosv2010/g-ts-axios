@@ -1,12 +1,13 @@
-import axios from '../../src/index'
+import axios, { AxiosError } from '../../src/index'
+
 
 axios({
   method: 'get',
   url: '/error/get1'
 }).then((res) => {
   console.log(res)
-}).catch((e) => {
-  console.log(e)
+}).catch((e: AxiosError) => {
+  console.log(e.code, e.message)
 })
 
 axios({
@@ -14,8 +15,8 @@ axios({
   url: '/error/get'
 }).then((res) => {
   console.log(res)
-}).catch((e) => {
-  console.log(e)
+}).catch((e: AxiosError) => {
+  console.log(e.code, e.message)
 })
 
 setTimeout(() => {
@@ -24,8 +25,8 @@ setTimeout(() => {
     url: '/error/get'
   }).then((res) => {
     console.log(res)
-  }).catch((e) => {
-    console.log(e)
+  }).catch((e: AxiosError) => {
+    console.log(e.code, e.message)
   })
 }, 5000)
 
@@ -35,6 +36,6 @@ axios({
   timeout: 2000
 }).then((res) => {
   console.log(res)
-}).catch((e) => {
-  console.log(e.message)
+}).catch((e: AxiosError) => {
+  console.log(e.code, e.message)
 })
