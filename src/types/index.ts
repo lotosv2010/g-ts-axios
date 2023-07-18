@@ -24,7 +24,8 @@ export interface AxiosRequestConfig {
   headers?: any
   data?: object
   params?: object
-  responseType?: XMLHttpRequestResponseType
+  responseType?: XMLHttpRequestResponseType,
+  timeout?: number;
 }
 export type Axios = (config: AxiosRequestConfig) => AxiosPromise
 
