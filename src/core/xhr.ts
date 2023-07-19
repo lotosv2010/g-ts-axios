@@ -1,6 +1,5 @@
-import { createError, parseHeaders } from './tools'
-import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from './types'
-
+import { createError, parseHeaders } from '../tools'
+import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../types'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -9,7 +8,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     const request = new XMLHttpRequest()
 
     const handleResponse = (response: AxiosResponse): void => {
-      if(response.status >= 200 && response.status < 300) {
+      if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
         const error = createError(
@@ -27,17 +26,17 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       request.responseType = responseType
     }
 
-    if(timeout) {
+    if (timeout) {
       request.timeout = timeout
-    } 
+    }
 
-    request.open(method.toUpperCase(), url, true)
+    request.open(method.toUpperCase(), url!, true)
 
     request.onreadystatechange = () => {
       if (request.readyState !== 4) {
         return
       }
-      if(request.status === 0) {
+      if (request.status === 0) {
         return
       }
       const responseHeaders = parseHeaders(request.getAllResponseHeaders())
@@ -65,12 +64,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
     // 处理网络异常错误
     request.onerror = () => {
-      const error = createError(
-        'Network Error',
-        config,
-        null,
-        request
-      )
+      const error = createError('Network Error', config, null, request)
       reject(error)
     }
 
