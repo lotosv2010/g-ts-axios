@@ -119,6 +119,32 @@ const registerExtendRouter = () => {
       url: req.url
     })
   })
+
+  router.get('/extend/user', function(req, res) {
+    res.json({
+      code: 0,
+      result: {
+        name: 'robin',
+        age: 20
+      },
+      message: ''
+    })
+  })
+  router.get('/extend/users', function(req, res) {
+    const result = []
+    for (let i = 0; i < 10; i++) {
+      const user = {
+        name: 'robin' + i,
+        age: 20 + i
+      }
+      result.push(user)
+    }
+    res.json({
+      code: 0,
+      result,
+      message: ''
+    })
+  })
 }
 
 registerSimpleRouter()
@@ -128,7 +154,7 @@ registerExtendRouter()
 
 app.use(router)
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8085
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
