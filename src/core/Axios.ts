@@ -28,7 +28,15 @@ export default class Axios {
       })
     )
   }
-  request(config: AxiosRequestConfig): AxiosPromise {
+  request(url: string | AxiosRequestConfig, config?: AxiosRequestConfig): AxiosPromise {
+    if (typeof url === 'string') {
+      if (!config) {
+        config = {}
+      }
+      config.url = url
+    } else {
+      config = url
+    }
     return dispatchRequest(config)
   }
   get(url: string, config?: AxiosRequestConfig): AxiosPromise {

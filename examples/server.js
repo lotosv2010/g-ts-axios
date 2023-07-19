@@ -24,97 +24,107 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/simple/get', function(req, res) {
-  console.log(req.params, 'req')
-  res.json({
-    msg: `hello world`
+const registerSimpleRouter = () => {
+  router.get('/simple/get', function(req, res) {
+    console.log(req.params, 'req')
+    res.json({
+      msg: `hello world`
+    })
   })
-})
+}
+const registerBaseRouter = () => {
+  router.get('/base/get', function(req, res) {
+    console.log(req.query, 'req')
+    res.json(req.query)
+  })
 
-router.get('/base/get', function(req, res) {
-  console.log(req.query, 'req')
-  res.json(req.query)
-})
+  router.post('/base/post', function(req, res) {
+    console.log(req.body, 'req')
+    res.json(req.body)
+  })
 
-router.post('/base/post', function(req, res) {
-  console.log(req.body, 'req')
-  res.json(req.body)
-})
-
-router.post('/base/buffer', function(req, res) {
-  let msg = []
-  req.on('data', (chunk) => {
-    if (chunk) {
-      msg.push(chunk)
+  router.post('/base/buffer', function(req, res) {
+    let msg = []
+    req.on('data', (chunk) => {
+      if (chunk) {
+        msg.push(chunk)
+      }
+    })
+    req.on('end', () => {
+      let buf = Buffer.concat(msg)
+      res.json(buf.toJSON())
+    })
+  })
+}
+const registerErrorRouter = () => {
+  router.get('/error/get', function(req, res) {
+    if (Math.random() > 0.5) {
+      res.json({
+        msg: `hello world`
+      })
+    } else {
+      res.status(500)
+      res.end()
     }
   })
-  req.on('end', () => {
-    let buf = Buffer.concat(msg)
-    res.json(buf.toJSON())
-  })
-})
 
-router.get('/error/get', function(req, res) {
-  if (Math.random() > 0.5) {
+  router.get('/error/timeout', function(req, res) {
+    setTimeout(() => {
+      res.json({
+        msg: `hello world`
+      })
+    }, 5000)
+  })
+}
+const registerExtendRouter = () => {
+  router.post('/extend/post', function(req, res) {
     res.json({
-      msg: `hello world`
+      url: req.url,
+      ...(req.body || {})
     })
-  } else {
-    res.status(500)
-    res.end()
-  }
-})
+  })
 
-router.get('/error/timeout', function(req, res) {
-  setTimeout(() => {
+  router.get('/extend/get', function(req, res) {
     res.json({
-      msg: `hello world`
+      url: req.url
     })
-  }, 5000)
-})
-
-router.post('/extend/post', function(req, res) {
-  res.json({
-    url: req.url,
-    ...(req.body || {})
   })
-})
 
-router.get('/extend/get', function(req, res) {
-  res.json({
-    url: req.url
+  router.options('/extend/options', function(req, res) {
+    res.json({
+      url: req.url
+    })
   })
-})
 
-router.options('/extend/options', function(req, res) {
-  res.json({
-    url: req.url
+  router.delete('/extend/delete', function(req, res) {
+    res.json({
+      url: req.url
+    })
   })
-})
 
-router.delete('/extend/delete', function(req, res) {
-  res.json({
-    url: req.url
+  router.head('/extend/head', function(req, res) {
+    res.json({
+      url: req.url
+    })
   })
-})
 
-router.head('/extend/head', function(req, res) {
-  res.json({
-    url: req.url
+  router.put('/extend/put', function(req, res) {
+    res.json({
+      url: req.url
+    })
   })
-})
 
-router.put('/extend/put', function(req, res) {
-  res.json({
-    url: req.url
+  router.patch('/extend/patch', function(req, res) {
+    res.json({
+      url: req.url
+    })
   })
-})
+}
 
-router.patch('/extend/patch', function(req, res) {
-  res.json({
-    url: req.url
-  })
-})
+registerSimpleRouter()
+registerBaseRouter()
+registerErrorRouter()
+registerExtendRouter()
 
 app.use(router)
 
