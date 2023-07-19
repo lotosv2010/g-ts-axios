@@ -129,5 +129,8 @@
     "webpack": "^5.88.1",
     "webpack-dev-middleware": "^6.1.1",
     "webpack-hot-middleware": "^2.25.4"
+  },
+  "dependencies": {
+    "tslib": "^2.6.0"
   }
 }

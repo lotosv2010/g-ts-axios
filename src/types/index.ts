@@ -47,6 +47,7 @@ export interface AxiosError extends Error {
 }
 
 export interface Axios {
+  interceptors: Interceptors
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
   head<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
@@ -60,4 +61,33 @@ export interface Axios {
 export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface ResolvedFn<T = any> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
+}
+
+export interface Interceptor<T> {
+  resolved: ResolvedFn<T>
+  rejected?: RejectedFn
+}
+
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+  forEach(fn: (interceptor: Interceptor<T>) => void): void
+  eject(id: number): void
+}
+
+export interface Interceptors {
+  request: AxiosInterceptorManager<AxiosRequestConfig>
+  response: AxiosInterceptorManager<AxiosResponse>
+}
+
+export interface PromiseChain {
+  resolved: ResolvedFn | ((config: AxiosRequestConfig) => AxiosPromise)
+  rejected?: RejectedFn
 }
