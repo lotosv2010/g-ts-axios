@@ -8,15 +8,18 @@ import {
 } from '../types'
 import InterceptorManager from './InterceptorManager'
 import dispatchRequest from './dispatchRequest'
+import mergeConfig from './mergeConfig'
 
 export default class Axios {
   interceptors: Interceptors
+  defaults: AxiosRequestConfig
 
-  constructor() {
+  constructor(initConfig: AxiosRequestConfig) {
     this.interceptors = {
       request: new InterceptorManager<AxiosRequestConfig>(),
       response: new InterceptorManager<AxiosResponse>()
     }
+    this.defaults = initConfig
   }
 
   __requestMethodWithoutData(
@@ -68,6 +71,8 @@ export default class Axios {
     this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
+
+    config = mergeConfig(this.defaults, config)
 
     let promise = Promise.resolve(config)
 

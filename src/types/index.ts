@@ -22,10 +22,11 @@ export interface AxiosRequestConfig {
   url?: string
   method?: Method
   headers?: any
-  data?: object
+  data?: object | string | null | undefined
   params?: object
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  [key: string]: any
 }
 
 export interface AxiosResponse<T = any> {
@@ -48,6 +49,7 @@ export interface AxiosError extends Error {
 
 export interface Axios {
   interceptors: Interceptors
+  defaults: AxiosRequestConfig
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
   head<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>

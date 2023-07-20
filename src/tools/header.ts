@@ -1,4 +1,5 @@
-import { isPlainObject } from './util'
+import { Method } from '../types'
+import { deepMerge, isPlainObject } from './util'
 
 export const CONTENTTYPE = 'Content-Type'
 
@@ -41,4 +42,18 @@ export const parseHeaders = (headers: string): Record<string, string> => {
     parsed[key] = val
   })
   return parsed
+}
+
+export const flattenHeaders = (headers: any, method: Method): any => {
+  if (!headers) {
+    return headers
+  }
+
+  headers = deepMerge(headers.common || {}, headers[method] || {}, headers)
+
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+
+  methodsToDelete.forEach(m => Reflect.deleteProperty(headers, m))
+
+  return headers
 }

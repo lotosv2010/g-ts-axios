@@ -151,12 +151,21 @@ const registerInterceptorRouter = () => {
     res.end('0')
   })
 }
+const registerConfigRouter = () => {
+  router.post('/config/post', function(req, res) {
+    res.json({
+      url: req.url,
+      name: 'config demo'
+    })
+  })
+}
 
 registerSimpleRouter()
 registerBaseRouter()
 registerErrorRouter()
 registerExtendRouter()
 registerInterceptorRouter()
+registerConfigRouter()
 
 app.use(router)
 

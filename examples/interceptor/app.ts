@@ -33,7 +33,7 @@ axios({
   method: 'get',
   headers: {
     test: ''
-  }
+  },
 }).then((res) => {
   console.log(res.data)
 })
