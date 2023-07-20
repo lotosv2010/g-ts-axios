@@ -159,6 +159,21 @@ const registerConfigRouter = () => {
     })
   })
 }
+const registerCancelRouter = () => {
+  router.get('/cancel/get', function(req, res) {
+    console.log('cancelled get', req.url)
+    setTimeout(() => {
+      res.json('hello')
+    }, 1000)
+  })
+
+  router.post('/cancel/post', function(req, res) {
+    console.log('cancelled post', req.url)
+    setTimeout(() => {
+      res.json(req.body)
+    }, 1000)
+  })
+}
 
 registerSimpleRouter()
 registerBaseRouter()
@@ -166,6 +181,7 @@ registerErrorRouter()
 registerExtendRouter()
 registerInterceptorRouter()
 registerConfigRouter()
+registerCancelRouter()
 
 app.use(router)
 
