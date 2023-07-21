@@ -19,7 +19,9 @@ const defaults: AxiosRequestConfig = {
     function(data: any): any {
       return transformResponse(data)
     }
-  ]
+  ],
+  xsrfCookieName: 'XSRF-TOKEN', // 存储 token 的 cookie 名称
+  xsrfHeaderName: 'X-XSRF-TOKEN' // 请求 headers 中 token 对应的 header 名称
 }
 
 const methodsNoData = ['get', 'options', 'head', 'delete']
