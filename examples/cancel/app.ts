@@ -7,19 +7,21 @@ axios.get('/cancel/get', {
   cancelToken: source.token
 }).catch(function(e) {
   if (axios.isCancel(e)) {
-    console.log('Request canceled,', e.message)
+    console.log('Request canceled,', e.message) // 输出1
   }
 })
 
 setTimeout(() => {
   source.cancel('Operation canceled by the user.')
 
-  axios.post('/cancel/post', { a: 1 }, { cancelToken: source.token }).catch(function(e) {
-    console.log('e', e)
-    if (axios.isCancel(e)) {
-      console.log('post', e.message)
-    }
-  })
+  setTimeout(() => {
+    axios.post('/cancel/post', { a: 1 }, { cancelToken: source.token }).catch(function(e) {
+      console.log('e', e)
+      if (axios.isCancel(e)) {
+        console.log('post', e.message) // 输出2
+      }
+    })
+  }, 100)
 }, 100)
 
 let cancel: Canceler
@@ -31,10 +33,10 @@ axios.get('/cancel/get', {
   })
 }).catch(function(e) {
   if (axios.isCancel(e)) {
-    console.log('Request canceled!', e.message)
+    console.log('Request canceled!', e.message) // 输出3
   }
 })
 
 setTimeout(() => {
   cancel('by manager')
-}, 200)
+}, 500)
