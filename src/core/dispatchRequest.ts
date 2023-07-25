@@ -3,7 +3,7 @@ import xhr from './xhr'
 import { buildURL, combineURL, flattenHeaders, isAbsoluteURL } from '../tools'
 import transform from './transform'
 
-const transformUrl = (config: AxiosRequestConfig): string => {
+export const transformUrl = (config: AxiosRequestConfig): string => {
   let { url, params, paramsSerializer, baseURL } = config
   if (baseURL && !isAbsoluteURL(url!)) {
     url = combineURL(baseURL, url)
