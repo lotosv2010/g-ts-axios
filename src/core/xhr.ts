@@ -31,9 +31,9 @@ const addEvents = (
   resolve: any,
   reject: any
 ): void => {
-  const { responseType, timeout, onDownloadProgress, onUploadProgress } = config
+  const { responseType, timeout, onDownloadProgress, onUploadProgress, validateStatus } = config
   const handleResponse = (response: AxiosResponse): void => {
-    if (response.status >= 200 && response.status < 300) {
+    if (!validateStatus || validateStatus(response.status)) {
       resolve(response)
     } else {
       const error = createError(

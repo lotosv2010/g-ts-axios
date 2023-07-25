@@ -21,7 +21,10 @@ const defaults: AxiosRequestConfig = {
     }
   ],
   xsrfCookieName: 'XSRF-TOKEN', // 存储 token 的 cookie 名称
-  xsrfHeaderName: 'X-XSRF-TOKEN' // 请求 headers 中 token 对应的 header 名称
+  xsrfHeaderName: 'X-XSRF-TOKEN', // 请求 headers 中 token 对应的 header 名称
+  validateStatus(status: number): boolean {
+    return status >= 200 && status < 300
+  }
 }
 
 const methodsNoData = ['get', 'options', 'head', 'delete']
