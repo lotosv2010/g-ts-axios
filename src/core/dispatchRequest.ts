@@ -4,8 +4,8 @@ import { buildURL, flattenHeaders } from '../tools'
 import transform from './transform'
 
 const transformUrl = (config: AxiosRequestConfig): string => {
-  const { url, params } = config
-  return buildURL(url!, params)
+  const { url, params, paramsSerializer } = config
+  return buildURL(url!, params, paramsSerializer)
 }
 
 const transformResponseData = (res: AxiosResponse): AxiosResponse => {

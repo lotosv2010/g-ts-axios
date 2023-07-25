@@ -1,4 +1,4 @@
-import { isArray, isDate, isPlainObject, encode } from './util'
+import { isArray, isDate, isPlainObject, encode, isURLSearchParams } from './util'
 
 interface URLOrigin {
   protocol: string
@@ -25,41 +25,49 @@ export const isURLSameOrigin = (requestURL: string): boolean => {
   )
 }
 
-export const buildURL = (url: string, params?: any) => {
+export const buildURL = (url: string, params?: any, paramsSerializer?: (params: any) => string) => {
   if (!params) {
     return url
   }
+
   let tempUrl = url
-  const parts: string[] = []
-  Object.keys(params).forEach(key => {
-    let val = params[key]
-    // 参数值为null 或 undefined
-    if (val === null && val === undefined) {
-      return
-    }
-
-    // 参数值为数组
-    let values: string[]
-    if (isArray(val)) {
-      values = val
-      key += '[]'
-    } else {
-      values = [val]
-    }
-
-    values.forEach(v => {
-      let tempVal = v
-      if (isDate(v)) {
-        tempVal = v.toISOString()
-      } else if (isPlainObject(v)) {
-        tempVal = JSON.stringify(v)
+  let serializedParams
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    serializedParams = params.toString()
+  } else {
+    const parts: string[] = []
+    Object.keys(params).forEach(key => {
+      let val = params[key]
+      // 参数值为null 或 undefined
+      if (val === null && val === undefined) {
+        return
       }
-      parts.push(`${encode(key)}=${encode(tempVal)}`)
-    })
-  })
 
-  //  拼接参数
-  let serializedParams = parts.join('&')
+      // 参数值为数组
+      let values: string[]
+      if (isArray(val)) {
+        values = val
+        key += '[]'
+      } else {
+        values = [val]
+      }
+
+      values.forEach(v => {
+        let tempVal = v
+        if (isDate(v)) {
+          tempVal = v.toISOString()
+        } else if (isPlainObject(v)) {
+          tempVal = JSON.stringify(v)
+        }
+        parts.push(`${encode(key)}=${encode(tempVal)}`)
+      })
+    })
+
+    //  拼接参数
+    serializedParams = parts.join('&')
+  }
 
   if (serializedParams) {
     // 去除哈希标志
