@@ -22,6 +22,11 @@ export interface AxiosTransformer {
   (data: any, headers?: any): any
 }
 
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
+}
+
 export interface AxiosRequestConfig {
   url?: string
   method?: Method
@@ -38,6 +43,7 @@ export interface AxiosRequestConfig {
   xsrfHeaderName?: string
   onDownloadProgress?: (e: ProgressEvent) => void
   onUploadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosBasicCredentials
   [key: string]: any
 }
 
