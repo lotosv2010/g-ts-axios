@@ -55,3 +55,7 @@ export const deepMerge = (...objs: any[]): any => {
   })
   return result
 }
+
+export const isFormData = (val: any): val is FormData => {
+  return typeof val !== 'undefined' && val instanceof FormData
+}
