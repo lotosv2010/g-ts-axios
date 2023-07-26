@@ -1,6 +1,6 @@
 {
   "name": "g-ts-axios",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "TypeScript 从零实现 Axios",
   "main": "dist/axios.umd.js",
   "module": "dist/axios.es5.js",
