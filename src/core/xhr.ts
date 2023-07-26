@@ -91,7 +91,7 @@ const addEvents = (
  * 执行 processHeaders 处理请求 headers
  */
 const processHeaders = (
-  { data, headers, url, withCredentials, xsrfCookieName, xsrfHeaderName, auth }: AxiosRequestConfig,
+  { data = null, headers = {}, url, withCredentials, xsrfCookieName, xsrfHeaderName, auth }: AxiosRequestConfig,
   request: XMLHttpRequest
 ): void => {
   if (auth) {

@@ -33,5 +33,10 @@ export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromis
   processConfig(config)
   return xhr(config).then(res => {
     return transformResponseData(res)
+  }, e => {
+    if (e && e.response) {
+      e.response = transformResponseData(e.response)
+    }
+    return Promise.reject(e)
   })
 }
